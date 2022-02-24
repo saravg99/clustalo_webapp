@@ -18,11 +18,7 @@ require "globals.inc.php";
 //
 
 if (isset($_REQUEST['new']) or !isset($_SESSION['queryData'])) {
-    $_SESSION['queryData'] = [
-        'seqQuery' => '',
-        'uniprotQuery' => '',
-        'output' => fa
-    ];
+    $_SESSION['queryData'] = [];
     $_SESSION['outputfile'] = '';
 }
 // end initialization ===================================================================================
@@ -37,7 +33,7 @@ if (isset($_REQUEST['new']) or !isset($_SESSION['queryData'])) {
                 <p>Enter FASTA sequences:</p>
 
             <div class="form-group">
-                <textarea class="form-control" name="seqQuery" rows="4" cols="60" style="width:100%"></textarea><br>
+                <textarea class="form-control" name="seqQuery" rows="4" cols="60" style="width:100%" ><?= $_SESSION['queryData']['seqQuery'] ?></textarea><br>
                 OR <br><br>
                 <p>Upload FASTA sequence file: </p>
                 <input type="file" name="seqFile" value="" width="50" style="width:100%"/> <br>
@@ -51,7 +47,7 @@ if (isset($_REQUEST['new']) or !isset($_SESSION['queryData'])) {
                 <p>Enter Uniprot IDs:</p>
 
             <div class="form-group">
-                <textarea class="form-control" name="uniprotQuery" rows="4" cols="60" style="width:100%"></textarea>
+                <textarea class="form-control" name="uniprotQuery" rows="4" cols="60" style="width:100%"><?= $_SESSION['queryData']['uniprotQuery'] ?></textarea>
             </div>
         </div>
     </div>

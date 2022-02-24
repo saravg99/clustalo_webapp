@@ -48,14 +48,6 @@ if (($_FILES['seqFile']['tmp_name'])) {
 
 //////////////////////////   RUN CLUSTAL //////////////
 
-// prepare FASTA file
-// Identify file format, ">" as first char indicates FASTA
-$p = strpos($_SESSION['queryData']['seqQuery'], '>');
-if (!$p and ( $p !== 0)) { // strpos returns False if not found and "0" if first character in the string
-    // When is not already FASTA, add header + new line
-    $_SESSION['queryData']['seqQuery'] = "> User provided sequence\n" . $_SESSION['queryData']['seqQuery'];
-}
-
 
 
 // Set temporary file name to a unique value to protect from concurrent runs
@@ -100,6 +92,7 @@ if ($_SESSION['outputfile'] == "") {
     </br>
     <form name="downloadform" method="POST" action="download.php">
     	<button type='submit' class="btn btn-secondary", name="download">Download File</button>    
+    	<button type='button' class="btn btn-primary" onclick="window.location.href='index.php'">Back</button>
     	<button type='button' class="btn btn-primary" onclick="window.location.href='index.php?new=1'">New Alignment</button>
     </form>
 
