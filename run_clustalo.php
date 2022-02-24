@@ -14,7 +14,7 @@ $_SESSION['queryData'] = $_REQUEST;
 
 
 
-//uniprot input
+//uniprot input, preference over fasta sequence input
 if ($_SESSION['queryData']['uniprotQuery']) {
 	$_SESSION['queryData']['seqQuery'] = "";
 	$ids = preg_split('/\s+/', $_SESSION['queryData']['uniprotQuery']);
@@ -26,12 +26,11 @@ if ($_SESSION['queryData']['uniprotQuery']) {
 		//echo $seq;
 		$_SESSION['queryData']['seqQuery'] .= $seq;
 		
-	
 	}
 }
 
 
-//Sequence input. If uploaded file, this takes preference/
+//Sequence input. If uploaded file, this takes preference over fasta sequence and uniprot input
 if (($_FILES['seqFile']['tmp_name'])) {
     $_SESSION['queryData']['seqQuery'] = file_get_contents($_FILES['seqFile']['tmp_name']);
 }
@@ -71,7 +70,7 @@ fclose($ff);
 
 // execute Clustalo
 
-$cmd = $clustalExe . " -i " . $tempFile . ".query.fasta -o " . $tempFile . ".aln." . $_SESSION['queryData']['output'] . " -outfmt=" . $_SESSION['queryData']['output'] ;
+$cmd = "./clustalo-1.2.4-Ubuntu-x86_64 -i " . $tempFile . ".query.fasta -o " . $tempFile . ".aln." . $_SESSION['queryData']['output'] . " --outfmt=" . $_SESSION['queryData']['output'] ;
 
 
 // DEBUG print command line
@@ -90,15 +89,22 @@ $_SESSION['outputfile'] = file_get_contents($output_file);
 //header('Content-Type: text/plain');
 //echo file_get_contents($output_file);
 
+if ($_SESSION['outputfile'] == "") {
+	$_SESSION['outputfile'] = "EMPTY OUTPUT\n\nPlease check that your input data contains at least 2 sequences in FASTA format or 2 valid Uniprot IDs.";
+}
+	
+
 ?>
 
-<?= headerDBW("")?>
-    
-    <form name="downloadform" method="POST" action="download.php">
-    	<input type="submit" name="download" value="Download File">
-    </form>
+<?= headerDBW("Alignment results")?>
     </br>
-    <pre><?= file_get_contents($output_file) ?></pre> 
+    <form name="downloadform" method="POST" action="download.php">
+    	<button type='submit' class="btn btn-secondary", name="download">Download File</button>    
+    	<button type='button' class="btn btn-primary" onclick="window.location.href='index.php?new=1'">New Alignment</button>
+    </form>
+
+    </br>
+    <pre><?= $_SESSION['outputfile'] ?></pre> 
     
     
 

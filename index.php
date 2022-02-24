@@ -1,11 +1,4 @@
 
-<!-- 
-inputs:
-	fasta sequences
-	uniprot ids
-	a file upload 
-
--->
 
 <?php
 /*
@@ -14,7 +7,7 @@ inputs:
  */
  
  
- // Loading global variables and DB connection
+ // Loading global variables
 require "globals.inc.php";
 
 
@@ -30,6 +23,7 @@ if (isset($_REQUEST['new']) or !isset($_SESSION['queryData'])) {
         'uniprotQuery' => '',
         'output' => fa
     ];
+    $_SESSION['outputfile'] = '';
 }
 // end initialization ===================================================================================
 ?>
@@ -39,7 +33,7 @@ if (isset($_REQUEST['new']) or !isset($_SESSION['queryData'])) {
 <form name="MainForm" action="run_clustalo.php" method="POST" enctype="multipart/form-data">
 	<div class="row" style="border-bottom: 1px solid">
         <div class="col-md-6">
-                <h4>Sequence search</h4>
+                <h4>Sequence alignment</h4>
                 <p>Enter FASTA sequences:</p>
 
             <div class="form-group">
@@ -53,7 +47,7 @@ if (isset($_REQUEST['new']) or !isset($_SESSION['queryData'])) {
     
     	<div class="row" style="border-bottom: 1px solid">
         <div class="col-md-6">
-                <h4>Uniprot search</h4>
+                <h4>Uniprot alignment</h4>
                 <p>Enter Uniprot IDs:</p>
 
             <div class="form-group">
@@ -68,7 +62,7 @@ if (isset($_REQUEST['new']) or !isset($_SESSION['queryData'])) {
                 <p>Select the desired output format:</p>
 
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="output" value="fa" checked> Fasta 	 
+                <input class="form-check-input" type="radio" name="output" value="fa" checked> Fasta (default format) 	 
             </div>
             <div class="form-check">
                 <input class="form-check-input" type="radio" name="output" value="clu"> Clustal
@@ -97,8 +91,7 @@ if (isset($_REQUEST['new']) or !isset($_SESSION['queryData'])) {
     <div class="row">
         <p>
             <button type='submit' class="btn btn-primary">Submit</button>
-            <button type='reset' class="btn btn-primary">Reset</button>
-            <button type='button' class="btn btn-primary" onclick="window.location.href='index.php?new=1'">New Search</button>
+            <button type='button' class="btn btn-primary" onclick="window.location.href='index.php?new=1'">New Alignment</button>
         </p>
     </div>
 </form>

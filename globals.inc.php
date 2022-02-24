@@ -19,11 +19,6 @@ $tmpDir = "$baseDir/tmp";
 // }
 
 
-// Blast details, change to adapt to local settings
-// Blast databases should be created using the appropriate programs.
-$clustalHome = "/usr";
-$clustalExe = "$clustalHome/bin/clustalo";
-//$clustalCmdLine = ;
 
 // Load accessory routines
 include_once "libDBW.inc.php";
